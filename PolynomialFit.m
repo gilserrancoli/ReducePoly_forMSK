@@ -6,7 +6,7 @@
 %
 % Date: 01/10/2024
 %
-function [muscle_spanning_joint_INFO,MuscleInfo] =  PolynomialFit(MuscleData)
+function [muscle_spanning_joint_INFO,MuscleInfo] =  PolynomialFit(MuscleData,threshold_r,threshold_t)
   
 %% Construct the polynomials for the moment arms and muscle length
 
@@ -21,8 +21,6 @@ function [muscle_spanning_joint_INFO,MuscleInfo] =  PolynomialFit(MuscleData)
     q_all = MuscleData.q;
 
     max_order = 9; % maximal polynomial order
-    threshold_r = 0.002; % maximal deviation from reference OpenSim data (in m) for rotational degrees of freedom
-    threshold_t = 0.02; % maximal deviation from reference OpenSim data (in []) for translational degrees of freedom
     nr_samples = length(q_all(:,1));
 
     lMT_all_error = zeros(length(muscle_sel), 1);
@@ -141,4 +139,4 @@ function [muscle_spanning_joint_INFO,MuscleInfo] =  PolynomialFit(MuscleData)
     title('Order of the polynomial approximation')
     ylabel('Order')
 
-nematicend
+end

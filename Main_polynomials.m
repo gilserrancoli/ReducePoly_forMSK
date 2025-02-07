@@ -15,6 +15,8 @@ clc
 runPolynomialfit = 1;
 saveQdot = 0;
 savePolynomials = 1;
+threshold_r = 0.002; % maximal deviation from reference OpenSim data (in m) for rotational degrees of freedom
+threshold_t = 0.02; % maximal deviation from reference OpenSim data (in []) for translational degrees of freedom
 
 %% Extract time and angles from dummy motion
 
@@ -130,12 +132,12 @@ end
 
 %% Call PolynomialFit
 if runPolynomialfit
-    [muscle_spanning_joint_INFO,MuscleInfo] = PolynomialFit(MuscleData);
+    [muscle_spanning_joint_INFO,MuscleInfo] = PolynomialFit(MuscleData,threshold_r,threshold_t);
 
     if savePolynomials
         save MuscleData_subject_GC MuscleData
         save muscle_spanning_joint_INFO_subject_GC muscle_spanning_joint_INFO
-        save MuscleInfo
+        save(['MuscleInfo_full_' , num2str(threshold_t*100) ],MuscleInfo);
     end
 end
 
