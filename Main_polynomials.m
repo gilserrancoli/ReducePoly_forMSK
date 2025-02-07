@@ -137,7 +137,18 @@ if runPolynomialfit
     if savePolynomials
         save MuscleData_subject_GC MuscleData
         save muscle_spanning_joint_INFO_subject_GC muscle_spanning_joint_INFO
-        save(['MuscleInfo_full_' , num2str(threshold_t*100) ],MuscleInfo);
+        if (threshold_r == 0.0005) && (threshold_t==0.005)
+            name_MuscleInfo='MuscleInfo_full_05.mat';
+        elseif (threshold_r == 0.001) && (threshold_t==0.01)
+            name_MuscleInfo='MuscleInfo_full_1.mat';
+        elseif (threshold_r == 0.002) && (threshold_t==0.02)
+            name_MuscleInfo='MuscleInfo_full_2.mat';
+        else
+            disp(['these thresholds have not been used for this study, but ' ...
+                'feel free to incorporate them']);
+            keyboard;
+        end
+        save(['MuscleInfo_full_' , name_MuscleInfo],'MuscleInfo');
     end
 end
 
@@ -195,3 +206,6 @@ for i = 1:size(q,1)
     end
 end
  
+fprintf('Starting to reduce the number of coefficients \n');
+%% Reduce the polynomial terms
+poly_reduction
