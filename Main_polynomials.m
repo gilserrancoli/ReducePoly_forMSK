@@ -148,7 +148,7 @@ if runPolynomialfit
                 'feel free to incorporate them']);
             keyboard;
         end
-        save(['MuscleInfo_full_' , name_MuscleInfo],'MuscleInfo');
+        save(name_MuscleInfo,'MuscleInfo');
     end
 end
 
@@ -207,5 +207,7 @@ for i = 1:size(q,1)
 end
  
 fprintf('Starting to reduce the number of coefficients \n');
+
 %% Reduce the polynomial terms
-poly_reduction
+Polynomial_reduction
+fprintf('end of polynomial reduction \n');
