@@ -118,11 +118,6 @@ function Results_3D = TrackSim_3D_GC_v2(nametrial_id, useReducedPolynomials, err
     % Derivative supplier
     % if deri == 1
         setup.derivatives = 'AD_Recorder'; % Algorithmic differentiation / Recorder     
-    % elseif deri == 2
-    %     setup.derivatives = 'AD_ADOLC'; % Algorithmic differentiation / ADOL-C
-    % elseif deri == 3
-    %     setup.derivatives = 'FD'; % Finite differences
-    % end
     % Identifiers for experimental data
     nametrial.ID    = ['ID_',nametrial.id];
     nametrial.GRF   = ['GRF_',nametrial.id];
@@ -198,78 +193,9 @@ function Results_3D = TrackSim_3D_GC_v2(nametrial_id, useReducedPolynomials, err
                 elseif Options.useContactModelwithTangentialForce0808
                     F2 = external('F','TrackSim_2_kneeCont_withTanForce_us08ud08.dll'); 
                 else
-                    if strcmp(Options.maxsmoothness,'logSum')
-                        if Options.kInmaxpen==1e3
-                            F2 = external('F','TrackSim_2_kneeCont_kmax1e3.dll'); 
-                        elseif Options.kInmaxpen==5e3
-                            F2 = external('F','TrackSim_2_kneeCont_kmax5e3.dll'); 
-                        elseif Options.kInmaxpen==1e4
-                            F2 = external('F','TrackSim_2_kneeCont_logSum_kmax1e4_kpress5e4.dll'); 
-                        elseif Options.kInmaxpen==5e4
-                            F2 = external('F','TrackSim_2_kneeCont_logSum_kmax5e4_kpress5e4.dll');
-                        elseif Options.kInmaxpen==1e5
-                            F2 = external('F','TrackSim_2_kneeCont_logSum_kmax1e5_kpress5e4.dll');
-                        else
-                            keyboard; %no function found
-                        end
-                    elseif strcmp(Options.maxsmoothness,'MellowMax')
-                        if  Options.kInmaxpen==1e5
-                            F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e5_kpress5e4.dll');
-                        elseif Options.kInmaxpen==1e4
-                            if (Options.nfacesTib==49)&&(Options.nfacesFem==171)&&(Options.rad4Pairs==1)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x171_rad1.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x171_rad1_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==49)&&(Options.nfacesFem==171)&&(Options.rad4Pairs==0.5)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x171_rad05.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x171_rad05_debug.dll');
-                                end
-%%
-
-                            elseif (Options.nfacesTib==49)&&(Options.nfacesFem==258)&&(Options.rad4Pairs==1)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x258_rad1.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x258_rad1_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==49)&&(Options.nfacesFem==258)&&(Options.rad4Pairs==0.5)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x258_rad05.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x258_rad05_debug.dll');
-                                end                             
-%% 
-                            elseif (Options.nfacesTib==75)&&(Options.nfacesFem==258)&&(Options.rad4Pairs==1)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x258_rad1.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x258_rad1_debug.dll');
-                                end 
-                            elseif (Options.nfacesTib==75)&&(Options.nfacesFem==258)&&(Options.rad4Pairs==0.5)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x258_rad05.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x258_rad05_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==75)&&(Options.nfacesFem==171)&&(Options.rad4Pairs==0.5)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x171_rad05.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x171_rad05_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==75)&&(Options.nfacesFem==171)&&(Options.rad4Pairs==1)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x171_rad1.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_75x171_rad1_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==100)&&(Options.nfacesFem==171)&&(Options.rad4Pairs==0.5)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_100x171_rad05.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_100x171_rad05_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==100)&&(Options.nfacesFem==171)&&(Options.rad4Pairs==1)
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_100x171_rad1.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_100x171_rad1_debug.dll');
-                                end
-                            elseif (Options.nfacesTib==100)&&(Options.nfacesFem==188)&&(Options.rad4Pairs==1)
+                    if strcmp(Options.maxsmoothness,'MellowMax')
+                        if  Options.kInmaxpen==1e4
+                            if (Options.nfacesTib==100)&&(Options.nfacesFem==188)&&(Options.rad4Pairs==1)
                                 if (Options.kInpress==1e4)&&(Options.kInCheckContacts==1e3)
                                     if Options.KCFasinputstoExternalFunction
                                         F2_skeletal=external('F','TrackSim_2_kneeCont_KCFasinput.dll');
@@ -277,49 +203,8 @@ function Results_3D = TrackSim_3D_GC_v2(nametrial_id, useReducedPolynomials, err
                                         F2_debug = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress1e4_checkContact1e3_100x188_rad1_forDebug.dll');
                                     end
                                 end
-                            elseif Options.numpairs==932 %not used anymore
-                                if (Options.kInpress==5e4)&&(Options.kInCheckContacts==1e4)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4_pairs932.dll');
-                                    F2_debug=external('F','..\ExternalFunctions_GC\TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4_pairs932_forDebug.dll');
-                                elseif (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e4)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e4_pairs932.dll');
-                                    F2_debug = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e4_pairs932_forDebug.dll');                  
-                                elseif (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_pairs932.dll');
-                                    F2_debug = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_pairs932_forDebug.dll');
-                                elseif (Options.kInpress==5e4)&&(Options.kInCheckContacts==1e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4_checkContact1e3_pairs932.dll');
-                                    F2_debug= external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4_checkContact1e3_pairs932_forDebug.dll');
-                                elseif (Options.kInpress==5e4)&&(Options.kInCheckContacts==5e3)
-                                    F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4_checkContact5e3_pairs932.dll');
-                                    F2_debug = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4_checkContact5e3_pairs932_forDebug.dll');
-                                else
-                                    keyboard;
-                                end
-                            elseif Options.numpairs==1378
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x188_pairs1378.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_49x188_pairs1378_forDebug.dll');
-                                end
-                            elseif Options.numpairs==1810
-                                if (Options.kInpress==5e5)&&(Options.kInCheckContacts==1e3)
-                                    F2=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_100x188_pairs1810.dll');
-                                    F2_debug=external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e5_checkContact1e3_100x188_pairs1810_forDebug.dll');
-                                end
-                            else
-                                %numpairs=499
-                                F2 = external('F','TrackSim_2_kneeCont_MellowMax_kmax1e4_kpress5e4.dll');
+                            
                             end
-                        end
-                    elseif strcmp(Options.maxsmoothness,'nosmooth')
-                        if Options.kInpress==5e5  
-                            F2 = external('F','TrackSim_2_kneeCont_hardmax_kpress5e5.dll');
-                        else
-                            F2 = external('F','TrackSim_2_kneeCont_maxnosmooth.dll');
-                        end
-                    elseif strcmp(Options.maxsmoothness,'pnorm')
-                        if  Options.kInmaxpen==1e4
-                            F2 = external('F','TrackSim_2_kneeCont_pnorm.dll');
                         end
                     else
                             keyboard; %no function found
@@ -327,17 +212,7 @@ function Results_3D = TrackSim_3D_GC_v2(nametrial_id, useReducedPolynomials, err
                 end
             elseif hessi == 2
                 disp('Memory issue with exact Hessian; case not available')
-            end
-        case 'AD_ADOLC' 
-            disp('ADOL-C cases not available');
-        case 'FD'
-            %deprecated
-            F1 = external('F','TrackSim_1_kneeCont.dll',struct('enable_fd',true,...
-                'enable_forward',false,'enable_reverse',false,...
-                'enable_jacobian',false,'fd_method','forward'));
-            F2 = external('F','TrackSim_2_kneeCont.dll',struct('enable_fd',true,...
-                'enable_forward',false,'enable_reverse',false,...
-                'enable_jacobian',false,'fd_method','forward'));        
+            end  
     end
     cd(pathmain);
     
