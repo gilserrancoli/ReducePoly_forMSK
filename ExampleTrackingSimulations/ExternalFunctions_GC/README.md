@@ -1,0 +1,3 @@
+The external functions using OpenSim AD API (from the <a href="https://github.com/gilserrancoli/opensim-core/tree/recorder_xml"> recorder_xml fork </a>) were:
+- <a href="https://github.com/gilserrancoli/opensim-core/blob/recorder_xml/OpenSim/External_Functions/TrackSim_1_kneeCont/TrackSim_1_kneeCont.cpp"> TrackSim_1_kneeCont.cpp </a> to compute the kienamtic variables of the foot.
+- <a href="https://github.com/gilserrancoli/opensim-core/blob/recorder_xml/OpenSim/External_Functions/TrackSim_2_kneeCont/TrackSim_2_kneeCont.cpp"> TrackSim_2_kneeCont.cpp </a> to compute the skeletal dynamics of the full-body model.
